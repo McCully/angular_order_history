@@ -3,17 +3,7 @@ var myApp = angular.module('myApp' , []);
 myApp.controller('IndexController' , ['$scope' , '$http' , function($scope , $http){
   console.log("Controller up!");
 
-  $scope.appendOrders = function(){
 
-  }
-
-  $http({
-  method: 'GET',
-  url: '/orders'
-}).then(function (response){
-  console.log("response : " , response);
-  $scope.orders = response.data;
-});
 
   $http({
     method: 'GET',
@@ -22,4 +12,18 @@ myApp.controller('IndexController' , ['$scope' , '$http' , function($scope , $ht
     console.log("response : " , response);
     $scope.customers = response.data;
   });
+
+  $scope.appendOrders = function(id){
+
+    $http({
+    method: 'GET',
+    url: '/customers/' + id
+    }).then(function (response){
+      console.log("response : " , response.data);
+      $scope.orders = response.data;
+
+    });
+  }
+
+
 }]);

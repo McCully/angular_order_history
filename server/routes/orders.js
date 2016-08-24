@@ -8,20 +8,24 @@ router.get('/', function (req, res) {
   pg.connect(connectionString , function(err , client, done) {
     if(err) {
       res.sendStatus(500);
+      console.log('error1: ' , err);
     }
 
-    client.query('SELECT customer_id, description , products.unit_price ,' +
-     'quantity , total , order_date , street , city , state, zip , address_type FROM line_items' +
-'JOIN products ON product_id = products.id' +
-'JOIN orders ON order_id = orders.id' +
-'JOIN addresses ON address_id = addresses.id' +
-'JOIN customers ON customer_id = customers.id' + 'WHERE this.id = customer_id',
- function(err , result){
-      done();
-      if(err){
+    client.query('SELECT * FROM orders' +
+                  'JOIN addresses ON addresses.id = orders.address_id' +
+                  'JOIN customers ON customers.id = addresses.customer_id' +
+                  'JOIN line_items ON line_items.order_id = orders.id' +
+                  'JOIN products ON products.id = line_items.product_id'+
+                  'WHERE customers.id = $1',
+     function(err , result){
+       done();
+       if(err){
         res.sendStatus(500);
+        console.log('error2: ' , err);
+        } else {
+        console.log('ROWS ' , result);
+        res.send(result.rows);
       }
-      res.send(result.rows);
     });
   });
 });

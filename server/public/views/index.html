@@ -6,22 +6,18 @@
     <script src = "/public/scripts/client-app.js"></script>
   </head>
 
-  <body  ng-controller = "IndexController">
-    <div class = "customerNames">
+  <body>
+    <div ng-controller = 'IndexController'>
         <h1>Customers</h1>
       <ul ng-repeat = "person in customers">
         <li>{{person.last_name}}, {{person.first_name}}</li>
-        <button ng-click="appendOrders()">See order history</button>
-      </ul>
+          <button ng-click="appendOrders()">See order history</button>
+          <h3>Orders</h3>
+          <li>{{order.description}}</li>
+
     </div>
 
-    <div class = "customerOrders">
-      <h1>Orders</h1>
-      <ul ng-repeat = "order in orders">
-        <li>{{orders}}</li>
       </ul>
     </div>
-
-
   </body>
 </html>
